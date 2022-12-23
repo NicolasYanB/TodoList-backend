@@ -2,6 +2,7 @@ import { Task } from "../../entities/task";
 import { ChangeTaskDTO } from "../../use-cases/changeTask";
 import { CreateTaskDTO } from "../../use-cases/createTask";
 import { findTaskDTO, TaskRepository } from "../taskRepository";
+import _ from 'lodash';
 
 export class InMemoryTaskRepository implements TaskRepository {
   private tasks : Task[] = [];
@@ -29,28 +30,25 @@ export class InMemoryTaskRepository implements TaskRepository {
     return task ?? null;
   }
 
-  public async findBy(findTask: findTaskDTO) : Promise<Task | null> {
-    const {id, userId, text, finished, createDate} = findTask;
+  public async findBy(findTask: findTaskDTO) : Promise<Task[]> {
     const keys = Object.keys(findTask);
     const tasks = this.tasks.filter(task => {
-    })
-    const task = this.tasks.find(task => {
-      return (
-        (!task || task.id === id) && (!userId || task.user.id === userId) &&
-        (!text || task.text === text) && (!finished || task.finished === finished) &&
-        (!createDate || task.createDate === createDate)
-      );
+      const taskSubset = _.pick(task, keys);
+      return _.isEqual(taskSubset, findTask);
     });
-    return task ?? null;
+    return tasks;
   }
 
-  public async update({id, userId, text, finished} : ChangeTaskDTO) : Promise<Task> {
-    const task = await this.findBy({id, userId});
-    if (!task) {
+  public async update(changes : ChangeTaskDTO) : Promise<Task> {
+    const { id, userId, ...changesInfo } = changes;
+    const tasks = await this.findBy({id, userId});
+    if (tasks.length === 0) {
       throw new Error('Task wasn\'t found');
     }
-    task.text = text ?? task.text;
-    task.finished = finished ?? task.finished;
+    const [task] = tasks;
+    for (const key in changesInfo){
+      task[key] = changes[key];
+    }
     return task;
   }
 }

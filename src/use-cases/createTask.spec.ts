@@ -33,7 +33,6 @@ describe('Create task', () => {
     const newTask = await createTask.execute({
       userId: 1,
       taskText: 'Do something useful',
-      taskCreateDate: format(new Date(), 'dd-MM-yyyy')
     });
 
     const allTasks = await taskRepository.findAll();
@@ -46,8 +45,17 @@ describe('Create task', () => {
       createTask.execute({
         userId: 2,
         taskText: 'Do something useful',
-        taskCreateDate: format(new Date(), 'dd-MM-yyyy')
       })
     ).rejects.toThrow();
+  });
+
+  it('Should put creation date automatically', async () => {
+    await createTask.execute({
+      userId: 1,
+      taskText: 'Finish api'
+    });
+
+    const createdTask = await taskRepository.findById(2);
+    expect(createdTask?.createDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/))
   });
 });

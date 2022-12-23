@@ -82,4 +82,15 @@ describe('Change task information', () => {
   it('Should be able to change a task that does not exists', () => {
     expect(changeTask.execute({id: 3, userId: 1, text: ''})).rejects.toThrow();
   });
+
+  it('Should put an date of when de task was finished', async () => {
+    await changeTask.execute({
+      id: 1,
+      userId: 1,
+      finished: true
+    });
+
+    const changedTask = await taskRepository.findById(1);
+    expect(changedTask?.finishedDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/));
+  })
 });

@@ -27,5 +27,4 @@
   - deleteTask
 
 ## TO DO
-- [] Add method to add finished date automatically when a task is finished, and erase it when it is unmarked
-- [] CreateDate automatically added to task
+[] When task is marked back to unfinished the finished data return to be an empty string
