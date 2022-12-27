@@ -20,6 +20,9 @@ export class ChangeTask {
     if (!task.finished && changes.finished) {
       changes.finishedDate = format(new Date(), 'dd-MM-yyyy');
     }
+    if (task.finished && !changes.finished) {
+      changes.finishedDate = '';
+    }
     await this.taskRepository.update(changes);
   }
 }

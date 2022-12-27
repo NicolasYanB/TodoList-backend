@@ -42,6 +42,10 @@ export class Task {
   }
 
   public set finishedDate(v: string) {
+    if (v === '') {
+      this._finishedDate = v;
+      return;
+    }
     this.validDate(v);
     if (parse(v, 'dd-MM-yyyy', new Date()) < parse(this.createDate, 'dd-MM-yyyy', new Date())){
       throw new Error('Finish date cannot be lower than creation date');

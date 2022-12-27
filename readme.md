@@ -27,4 +27,4 @@
   - deleteTask
 
 ## TO DO
-[] When task is marked back to unfinished the finished data return to be an empty string
+- Delete task

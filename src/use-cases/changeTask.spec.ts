@@ -92,5 +92,16 @@ describe('Change task information', () => {
 
     const changedTask = await taskRepository.findById(1);
     expect(changedTask?.finishedDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/));
+  });
+
+  it('Should remove the finished date if the task is marked as not finished', async () => {
+    await changeTask.execute({
+      id: 1,
+      userId: 1,
+      finished: false
+    });
+
+    const changedTask = await taskRepository.findById(1);
+    expect(changedTask?.finishedDate).toBe('');
   })
 });
