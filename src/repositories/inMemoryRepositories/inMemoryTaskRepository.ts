@@ -51,4 +51,13 @@ export class InMemoryTaskRepository implements TaskRepository {
     }
     return task;
   }
+
+  public async deleteById(id: number) : Promise<Task> {
+    const deletedTask = await this.findById(id);
+    if (!deletedTask) {
+      throw new Error('Cannot delete a task that does not exists');
+    }
+    this.tasks = this.tasks.filter(task => task.id !== id);
+    return deletedTask;
+  }
 }

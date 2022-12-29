@@ -79,7 +79,7 @@ describe('Change task information', () => {
     expect(changeTask.execute({id: 2, userId: 1, text: ''})).rejects.toThrow();
   });
 
-  it('Should be able to change a task that does not exists', () => {
+  it('Should not be able to change a task that does not exists', () => {
     expect(changeTask.execute({id: 3, userId: 1, text: ''})).rejects.toThrow();
   });
 

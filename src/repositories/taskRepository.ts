@@ -16,4 +16,5 @@ export interface TaskRepository {
   findById(id: number) : Promise<Task | null>;
   findBy(searchParams: findTaskDTO) : Promise<Task[]>;
   update(changes: ChangeTaskDTO) : Promise<Task>;
+  deleteById(id: number) : Promise<Task>;
 }
