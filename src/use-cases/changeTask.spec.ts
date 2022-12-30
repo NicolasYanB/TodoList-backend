@@ -9,6 +9,7 @@ import { CreateUser } from "./createUser";
 
 describe('Change task information', () => {
   let changeTask: ChangeTask;
+  let createTask: CreateTask;
   let taskRepository: TaskRepository;
   let userRepository: UserRepository;
 
@@ -17,7 +18,7 @@ describe('Change task information', () => {
     userRepository = new InMemoryUserRepository();
 
     const createUser = new CreateUser(userRepository);
-    const createTask = new CreateTask(taskRepository, userRepository);
+    createTask = new CreateTask(taskRepository, userRepository);
 
     const userData = {
       login: 'nicolas.yan',
@@ -60,13 +61,13 @@ describe('Change task information', () => {
     expect(changedTask?.finished).toBeTruthy();
   });
 
-  it('Should not be able to create a task that wasn\'t created by the user', async () => {
+  it('Should not be able to change a task that wasn\'t created by the user', async () => {
     const createUser = new CreateUser(userRepository);
     const createTask = new CreateTask(taskRepository, userRepository);
     const userData = {
       login: 'victor.samyr',
       email: 'victor.samyr@gmail.com',
-      password: 'estoraCu123'
+      password: 'istoraC#123'
     };
     const taskData = {
       userId: 2,
@@ -84,13 +85,18 @@ describe('Change task information', () => {
   });
 
   it('Should put an date of when de task was finished', async () => {
+    await createTask.execute({
+      userId: 1,
+      taskText: 'Resolver erro'
+    });
+
     await changeTask.execute({
-      id: 1,
+      id: 3,
       userId: 1,
       finished: true
     });
 
-    const changedTask = await taskRepository.findById(1);
+    const changedTask = await taskRepository.findById(3);
     expect(changedTask?.finishedDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/));
   });
 

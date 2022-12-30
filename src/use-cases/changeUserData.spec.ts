@@ -9,7 +9,7 @@ describe('Change user data', () => {
   let userRepository: UserRepository;
   let changeUserData: ChangeUserData;
   let userData: any;
-  let user;
+  let user: User | null;
 
   beforeAll(() => {
     userRepository = new InMemoryUserRepository();
@@ -30,28 +30,28 @@ describe('Change user data', () => {
 
   it('Should change username', async () => {
     let newUsername = 'NicolasYanB';
-    await changeUserData.execute({id: user.id, username: newUsername});
+    await changeUserData.execute({id: user!.id, username: newUsername});
     const changedUser = await userRepository.findById(1);
     expect(changedUser?.username).toBe(newUsername);
   });
 
   it('Should change email', async () => {
     let newEmail = 'nicolas.yanb@gmail.com';
-    await changeUserData.execute({id: user.id, email: newEmail});
+    await changeUserData.execute({id: user!.id, email: newEmail});
     const changedUser = await userRepository.findById(1);
     expect(changedUser?.email).toBe(newEmail);
   });
 
   it('Should change password', async () => {
     let newPassword = '0987654321';
-    await changeUserData.execute({id: user.id, password: newPassword});
+    await changeUserData.execute({id: user!.id, password: newPassword});
     const changedUser = await userRepository.findById(1);
     expect(changedUser?.password).toBe(newPassword);
   });
 
   it('Shouldn\'t change email to an invalid email', () => {
     let newEmail = 'nicolas.yanb';
-    expect(changeUserData.execute({id: user.id, email: newEmail})).rejects.toThrow();
+    expect(changeUserData.execute({id: user!.id, email: newEmail})).rejects.toThrow();
   });
 
   it('Shouldn\'t change data of an user that doesn\'t exists', () => {

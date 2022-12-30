@@ -30,25 +30,29 @@ export class InMemoryTaskRepository implements TaskRepository {
     return task ?? null;
   }
 
-  public async findBy(findTask: findTaskDTO) : Promise<Task[]> {
-    const keys = Object.keys(findTask);
-    const tasks = this.tasks.filter(task => {
-      const taskSubset = _.pick(task, keys);
-      return _.isEqual(taskSubset, findTask);
+  public async findBy({id, userId, text, finished, createDate}: findTaskDTO) : Promise<Task[]> {
+    const tasks = this.tasks.filter((task) => {
+      return (
+        (!id || id === task.id) &&
+        (!userId || userId === task.userId) &&
+        (!text || text === task.text) &&
+        (!finished || finished === task.finished) &&
+        (!createDate || createDate === task.createDate)
+      );
     });
     return tasks;
   }
 
-  public async update(changes : ChangeTaskDTO) : Promise<Task> {
-    const { id, userId, ...changesInfo } = changes;
+  public async update({id, userId, text, finished, finishedDate} : ChangeTaskDTO) : Promise<Task> {
     const tasks = await this.findBy({id, userId});
     if (tasks.length === 0) {
       throw new Error('Task wasn\'t found');
     }
     const [task] = tasks;
-    for (const key in changesInfo){
-      task[key] = changes[key];
-    }
+    task.text = text ?? task.text;
+    task.finished = finished ?? task.finished;
+    task.finishedDate = finishedDate ?? task.finishedDate;
+    this.tasks = this.tasks.map(t => t.id === task.id ? task : t);
     return task;
   }
 
