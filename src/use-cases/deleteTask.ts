@@ -1,9 +1,5 @@
 import { TaskRepository } from "../repositories/taskRepository";
-
-export interface DeleteTaskDTO {
-  id: number;
-  userId: number;
-}
+import { DeleteTaskDTO } from "../DTOs/deleteTaskDTO";
 
 export class DeleteTask {
   constructor (

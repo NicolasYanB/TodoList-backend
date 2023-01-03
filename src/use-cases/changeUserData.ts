@@ -1,11 +1,5 @@
 import { UserRepository } from "../repositories/userRepository";
-
-export interface ChangeUserDataDTO {
-  id: number;
-  email?: string;
-  username?: string;
-  password?: string;
-}
+import { ChangeUserDataDTO } from "../DTOs/changeUserDataDTO";
 
 export class ChangeUserData {
   constructor(

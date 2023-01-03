@@ -1,6 +1,6 @@
 import { Task } from "../../entities/task";
-import { ChangeTaskDTO } from "../../use-cases/changeTask";
-import { CreateTaskDTO } from "../../use-cases/createTask";
+import { ChangeTaskDTO } from "../../DTOs/changeTaskDTO";
+import { CreateTaskDTO } from "../../DTOs/createTaskDTO";
 import { findTaskDTO, TaskRepository } from "../taskRepository";
 import _ from 'lodash';
 

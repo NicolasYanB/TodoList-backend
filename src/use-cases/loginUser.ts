@@ -1,10 +1,6 @@
 import { User } from "../entities/user";
 import { UserRepository } from "../repositories/userRepository";
-
-export interface LoginUserDTO {
-  loginOrEmail: string;
-  password: string;
-}
+import { LoginUserDTO } from "../DTOs/loginUserDTO";
 
 type LoginUserResponse = User | null;
 

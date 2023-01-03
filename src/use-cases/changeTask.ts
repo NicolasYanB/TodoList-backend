@@ -1,13 +1,6 @@
 import { format } from "date-fns";
 import { TaskRepository } from "../repositories/taskRepository";
-
-export interface ChangeTaskDTO {
-  id: number;
-  userId: number;
-  text?: string;
-  finished?: boolean;
-  finishedDate?: string;
-}
+import { ChangeTaskDTO } from "../DTOs/changeTaskDTO";
 
 export class ChangeTask {
   constructor (

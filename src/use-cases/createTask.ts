@@ -1,18 +1,11 @@
 import { format } from "date-fns";
 import { Task } from "../entities/task";
-import { User } from "../entities/user";
 import { TaskRepository } from "../repositories/taskRepository";
 import { UserRepository } from "../repositories/userRepository";
 
 interface CreateTaskRequest {
   userId: number;
   taskText: string;
-}
-
-export interface CreateTaskDTO {
-  user: User;
-  text: string;
-  createDate: string;
 }
 
 export class CreateTask{
