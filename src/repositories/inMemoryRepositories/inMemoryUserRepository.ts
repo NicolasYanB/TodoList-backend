@@ -8,13 +8,14 @@ export class InMemoryUserRepository implements UserRepository {
   private sqUsers: number = 0;
 
   public async create({login, email, password, username}: CreateUserDTO): Promise<User> {
-    const user = new User({
-      id: ++this.sqUsers,
+    this.sqUsers++;
+    const user = new User(
+      this.sqUsers,
       login,
       email,
       password,
       username
-    });
+    );
 
     this.users.push(user);
     return user;
