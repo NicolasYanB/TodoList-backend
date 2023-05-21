@@ -19,10 +19,11 @@ describe('Delete task', () => {
     createTask = new CreateTask(taskRepository, userRepository);
     createUser = new CreateUser(userRepository);
 
-    const uesrData = {
+    const userData = {
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
-      password: '1234567'
+      password: '1234567',
+      username: 'nicolas.yan'
     };
     const taskData = {
       userId: 1,
@@ -30,7 +31,7 @@ describe('Delete task', () => {
       taskCreateDate: '29-12-2022'
     };
 
-    createUser.execute(uesrData);
+    createUser.execute(userData);
     createTask.execute(taskData);
   });
 
@@ -47,7 +48,8 @@ describe('Delete task', () => {
     await createUser.execute({
       login: 'victor.samyr',
       email: 'victor.samyr@gmail.com',
-      password: 'imgay24'
+      password: 'imgay24',
+      username: 'nicolas.yan'
     });
     await createTask.execute({
       userId: 2,

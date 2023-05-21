@@ -23,7 +23,8 @@ describe('Change task information', () => {
     const userData = {
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
-      password: '1234567890'
+      password: '1234567890',
+      username: 'nicolas.yan'
     };
     const taskData = {
       userId: 1,
@@ -67,7 +68,8 @@ describe('Change task information', () => {
     const userData = {
       login: 'victor.samyr',
       email: 'victor.samyr@gmail.com',
-      password: 'istoraC#123'
+      password: 'istoraC#123',
+      username: 'nicolas.samyr'
     };
     const taskData = {
       userId: 2,
@@ -83,31 +85,4 @@ describe('Change task information', () => {
   it('Should not be able to change a task that does not exists', () => {
     expect(changeTask.execute({id: 3, userId: 1, text: ''})).rejects.toThrow();
   });
-
-  it('Should put an date of when de task was finished', async () => {
-    await createTask.execute({
-      userId: 1,
-      taskText: 'Resolver erro'
-    });
-
-    await changeTask.execute({
-      id: 3,
-      userId: 1,
-      finished: true
-    });
-
-    const changedTask = await taskRepository.findById(3);
-    expect(changedTask?.finishedDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/));
-  });
-
-  it('Should remove the finished date if the task is marked as not finished', async () => {
-    await changeTask.execute({
-      id: 1,
-      userId: 1,
-      finished: false
-    });
-
-    const changedTask = await taskRepository.findById(1);
-    expect(changedTask?.finishedDate).toBe('');
-  })
 });

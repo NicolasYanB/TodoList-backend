@@ -26,7 +26,8 @@ describe('Create task', () => {
     const userInfo = {
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
-      password: '1234567890'
+      password: '1234567890',
+      username: 'nicolas.yan'
     };
     await createUser.execute(userInfo);
 
@@ -55,7 +56,7 @@ describe('Create task', () => {
       taskText: 'Finish api'
     });
 
-    const createdTask = await taskRepository.findById(2);
+    const createdTask = await taskRepository.findById(1);
     expect(createdTask?.createDate).toEqual(expect.stringMatching(/\d\d-\d\d-\d\d\d\d/))
   });
 });

@@ -1,11 +1,3 @@
-export interface UserProps {
-  id: number;
-  login: string,
-  email: string,
-  password: string;
-  username?: string;
-}
-
 export class User {
   constructor (
     readonly id : number,

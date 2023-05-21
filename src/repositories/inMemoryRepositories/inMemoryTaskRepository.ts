@@ -9,13 +9,14 @@ export class InMemoryTaskRepository implements TaskRepository {
   private sqTask = 0;
 
   public async create({user, text, createDate} : CreateTaskDTO) : Promise<Task>{
-    const task = new Task({
-      id: ++this.sqTask,
+    const id = ++this.sqTask;
+    const task = new Task(
+      id,
       text,
       createDate,
-      finished: false,
+      false,
       user
-    });
+    );
 
     this.tasks.push(task);
     return task;
@@ -34,7 +35,7 @@ export class InMemoryTaskRepository implements TaskRepository {
     const tasks = this.tasks.filter((task) => {
       return (
         (!id || id === task.id) &&
-        (!userId || userId === task.userId) &&
+        (!userId || userId === task.user.id) &&
         (!text || text === task.text) &&
         (!finished || finished === task.finished) &&
         (!createDate || createDate === task.createDate)
@@ -49,10 +50,16 @@ export class InMemoryTaskRepository implements TaskRepository {
       throw new Error('Task wasn\'t found');
     }
     const [task] = tasks;
-    task.text = text ?? task.text;
-    task.finished = finished ?? task.finished;
-    task.finishedDate = finishedDate ?? task.finishedDate;
-    this.tasks = this.tasks.map(t => t.id === task.id ? task : t);
+    text = text ?? task.text;
+    finished = finished ?? task.finished;
+    const newTask = new Task(
+      id,
+      text,
+      task.createDate,
+      finished,
+      task.user
+    )
+    this.tasks = this.tasks.map(t => t.id === task.id ? newTask : t);
     return task;
   }
 
