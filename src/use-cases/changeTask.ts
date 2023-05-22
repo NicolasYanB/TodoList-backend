@@ -8,11 +8,6 @@ export class ChangeTask {
   ){}
 
   public async execute(changes: ChangeTaskDTO){
-    const {id, userId} = changes;
-    const [task] = await this.taskRepository.findBy({id, userId});
-    if (task.finished && !changes.finished) {
-      changes.finishedDate = '';
-    }
     await this.taskRepository.update(changes);
   }
 }

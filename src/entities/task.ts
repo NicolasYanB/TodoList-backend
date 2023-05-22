@@ -14,7 +14,6 @@ export class Task {
     readonly id : number,
     readonly text : string,
     readonly createDate : string,
-    readonly finished : boolean,
-    readonly user : User
+    readonly finished : boolean
   ) {}
 }

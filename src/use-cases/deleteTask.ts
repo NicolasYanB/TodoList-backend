@@ -6,8 +6,8 @@ export class DeleteTask {
     private taskRepository : TaskRepository
   ) {}
 
-  public async execute({id, userId} : DeleteTaskDTO) {
-    const [task] = await this.taskRepository.findBy({id, userId});
+  public async execute({id} : DeleteTaskDTO) {
+    const task = await this.taskRepository.findById(id);
     if (!task) {
       throw new Error(`Task ${id} was not found`);
     }

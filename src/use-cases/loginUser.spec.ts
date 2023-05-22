@@ -15,6 +15,7 @@ describe('Login user', () => {
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
       password: '1234567890',
+      username: 'nicolas.yan'
     });
   });
 

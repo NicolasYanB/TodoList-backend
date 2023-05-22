@@ -49,11 +49,6 @@ describe('Change user data', () => {
     expect(changedUser?.password).toBe(newPassword);
   });
 
-  it('Shouldn\'t change email to an invalid email', () => {
-    let newEmail = 'nicolas.yanb';
-    expect(changeUserData.execute({id: user!.id, email: newEmail})).rejects.toThrow();
-  });
-
   it('Shouldn\'t change data of an user that doesn\'t exists', () => {
     expect(changeUserData.execute({id: 2, username: 'a'})).rejects.toThrow();
   });

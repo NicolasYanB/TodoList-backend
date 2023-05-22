@@ -44,7 +44,6 @@ describe('Change task information', () => {
     const newText = 'Ser útil';
     await changeTask.execute({
       id: 1,
-      userId: 1,
       text: newText
     });
     const changedTask = await taskRepository.findById(1);
@@ -54,7 +53,6 @@ describe('Change task information', () => {
   it('Should be able to change task state', async () => {
     await changeTask.execute({
       id: 1,
-      userId: 1,
       finished: true
     });
 
@@ -62,27 +60,7 @@ describe('Change task information', () => {
     expect(changedTask?.finished).toBeTruthy();
   });
 
-  it('Should not be able to change a task that wasn\'t created by the user', async () => {
-    const createUser = new CreateUser(userRepository);
-    const createTask = new CreateTask(taskRepository, userRepository);
-    const userData = {
-      login: 'victor.samyr',
-      email: 'victor.samyr@gmail.com',
-      password: 'istoraC#123',
-      username: 'nicolas.samyr'
-    };
-    const taskData = {
-      userId: 2,
-      taskText: 'Terminar API',
-      taskCreateDate: '21-12-2022'
-    };
-    await createUser.execute(userData);
-    await createTask.execute(taskData);
-
-    expect(changeTask.execute({id: 2, userId: 1, text: ''})).rejects.toThrow();
-  });
-
   it('Should not be able to change a task that does not exists', () => {
-    expect(changeTask.execute({id: 3, userId: 1, text: ''})).rejects.toThrow();
+    expect(changeTask.execute({id: 3, text: ''})).rejects.toThrow();
   });
 });

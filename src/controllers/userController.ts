@@ -28,7 +28,7 @@ export class UserController {
             password: body.password
         };
         const loginUser = new LoginUser(this.userRepository);
-        const loggedUser = loginUser.execute(loginUserData);
+        const loggedUser = await loginUser.execute(loginUserData);
         res.json(loggedUser);
     }
 }

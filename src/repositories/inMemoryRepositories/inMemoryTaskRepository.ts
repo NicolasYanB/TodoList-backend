@@ -8,14 +8,13 @@ export class InMemoryTaskRepository implements TaskRepository {
   private tasks : Task[] = [];
   private sqTask = 0;
 
-  public async create({user, text, createDate} : CreateTaskDTO) : Promise<Task>{
+  public async create({text, createDate} : CreateTaskDTO) : Promise<Task>{
     const id = ++this.sqTask;
     const task = new Task(
       id,
       text,
       createDate,
-      false,
-      user
+      false
     );
 
     this.tasks.push(task);
@@ -35,7 +34,6 @@ export class InMemoryTaskRepository implements TaskRepository {
     const tasks = this.tasks.filter((task) => {
       return (
         (!id || id === task.id) &&
-        (!userId || userId === task.user.id) &&
         (!text || text === task.text) &&
         (!finished || finished === task.finished) &&
         (!createDate || createDate === task.createDate)
@@ -44,23 +42,21 @@ export class InMemoryTaskRepository implements TaskRepository {
     return tasks;
   }
 
-  public async update({id, userId, text, finished, finishedDate} : ChangeTaskDTO) : Promise<Task> {
-    const tasks = await this.findBy({id, userId});
-    if (tasks.length === 0) {
+  public async update({id, text, finished} : ChangeTaskDTO) : Promise<Task> {
+    const task = await this.findById(id);
+    if (!task) {
       throw new Error('Task wasn\'t found');
     }
-    const [task] = tasks;
     text = text ?? task.text;
     finished = finished ?? task.finished;
     const newTask = new Task(
       id,
       text,
       task.createDate,
-      finished,
-      task.user
-    )
+      finished
+    );
     this.tasks = this.tasks.map(t => t.id === task.id ? newTask : t);
-    return task;
+    return newTask;
   }
 
   public async deleteById(id: number) : Promise<Task> {

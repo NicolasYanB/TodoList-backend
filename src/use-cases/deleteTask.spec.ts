@@ -26,7 +26,6 @@ describe('Delete task', () => {
       username: 'nicolas.yan'
     };
     const taskData = {
-      userId: 1,
       taskText: 'Fazer algo útil',
       taskCreateDate: '29-12-2022'
     };
@@ -40,30 +39,11 @@ describe('Delete task', () => {
   });
 
   it('Should delete task', async () => {
-    await deleteTask.execute({id: 1, userId: 1});
+    await deleteTask.execute({id: 1});
     expect(taskRepository.findById(1)).resolves.toBeNull();
   });
 
-  it('Should not delete a task that was not created by the user', async () => {
-    await createUser.execute({
-      login: 'victor.samyr',
-      email: 'victor.samyr@gmail.com',
-      password: 'imgay24',
-      username: 'nicolas.yan'
-    });
-    await createTask.execute({
-      userId: 2,
-      taskText: 'Fazer relatório'
-    });
-
-    expect(deleteTask.execute({id: 2, userId: 1})).rejects.toThrow();
-  });
-
-  it('Should not delete a task from a user that does not exists', () => {
-    expect(deleteTask.execute({id: 2, userId: 3})).rejects.toThrow();
-  });
-
   it('Should not delete a task that does not exists',() => {
-    expect(deleteTask.execute({id: 3, userId: 1})).rejects.toThrow();
+    expect(deleteTask.execute({id: 3})).rejects.toThrow();
   });
 })

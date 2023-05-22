@@ -4,7 +4,6 @@ import { TaskRepository } from "../repositories/taskRepository";
 import { UserRepository } from "../repositories/userRepository";
 
 interface CreateTaskRequest {
-  userId: number;
   taskText: string;
 }
 
@@ -14,13 +13,9 @@ export class CreateTask{
     private userRepository : UserRepository
   ){}
 
-  public async execute({userId, taskText} : CreateTaskRequest) : Promise<Task>{
-    const user = await this.userRepository.findById(userId);
-    if (!user) {
-      throw new Error('User wasn\'t found');
-    }
+  public async execute({taskText} : CreateTaskRequest) : Promise<Task>{
     const createDate = format(new Date(), 'dd-MM-yyyy');
-    const newTask = await this.taskRepository.create({user, text: taskText, createDate: createDate});
+    const newTask = await this.taskRepository.create({text: taskText, createDate: createDate});
     return newTask;
   }
 }

@@ -49,9 +49,11 @@ export class InMemoryUserRepository implements UserRepository {
     if (!user) {
       throw new Error('User wasn\'t found');
     }
-    user.email = email ?? user.email;
-    user.username = username ?? user.username;
-    user.password = password ?? user.password;
-    return user;
+    email = email ?? user.email;
+    username = username ?? user.username;
+    password = password ?? user.password;
+    const updatedUser = new User(user.id, user.login, email, password, username);
+    this.users = this.users.map(t => t.id === user.id ? updatedUser : t);
+    return updatedUser;
   }
 }

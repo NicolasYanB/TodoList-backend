@@ -18,7 +18,8 @@ describe('Create user', () => {
     expect(createUser.execute({
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
-      password: '1234567890'
+      password: '1234567890',
+      username: 'nicolas.yan'
     })).resolves.toBeInstanceOf(User);
   });
 });

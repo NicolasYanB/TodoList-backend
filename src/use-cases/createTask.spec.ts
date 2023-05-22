@@ -32,7 +32,6 @@ describe('Create task', () => {
     await createUser.execute(userInfo);
 
     const newTask = await createTask.execute({
-      userId: 1,
       taskText: 'Do something useful',
     });
 
@@ -40,19 +39,9 @@ describe('Create task', () => {
     expect(allTasks.length).toBe(1);
     expect(allTasks[0]).toBe(newTask);
   });
-  
-  it("Should not create a task if the user doesn't exist", () => {
-    expect(
-      createTask.execute({
-        userId: 2,
-        taskText: 'Do something useful',
-      })
-    ).rejects.toThrow();
-  });
 
   it('Should put creation date automatically', async () => {
     await createTask.execute({
-      userId: 1,
       taskText: 'Finish api'
     });
 

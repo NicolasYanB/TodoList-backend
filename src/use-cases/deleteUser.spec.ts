@@ -19,7 +19,8 @@ describe('Delete user', () => {
     const user = {
       login: 'nicolas.yan',
       email: 'nicolas.yan@gmail.com',
-      password: '1234567890'
+      password: '1234567890',
+      username: 'nicolas.yan'
     };
     createUser.execute(user);
   });
